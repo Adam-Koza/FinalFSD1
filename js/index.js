@@ -75,14 +75,18 @@ function wait(ms){
        totalVal += arr[i].totalValue;
     }
     for (b=0; b<arr.length; b++){
+        var height = (((arr[b].totalValue / totalVal) * 100) * 4);
+        if (height > 100){
+            height = 100;
+        }
+        var red = Math.round((arr[b].gasGrade * 255));
+        var green = 255 - red;
        var div = document.createElement('div');
        div.className = 'block';
        div.id = 'block' + b;
        div.style.cssText = 'width: ' + ((arr[b].totalValue / totalVal) * 100) + 
-       '%; height: ' + (((arr[b].totalValue / totalVal) * 100) * 4) + '%; ' +
-       'box-sizing: border-box; border: 1px solid#b1b0b1; border-radius: 15px; ' +
-       'display: flex; flex-direction: column; align-items: center; justify-content: center;' +
-       'background-color: rgb(' + Math.round((arr[b].gasGrade * 255)) + ', ' + Math.round(((100 - (arr[b].gasGrade * 100))) * 255) + ', 0);'; 
+       '%; height: ' + height + '%; ' +
+       'background-color: rgb(' + red + ', ' + green + ', 0);'; 
        if (((arr[b].totalValue / totalVal) * 100 > 8)) {
            div.innerHTML = "<div><b>#" + arr[b].height + "</b></div>" +
            "<div>" + Math.round((arr[b].totalValue / 1000000000000000000)) + " eth </div>" +

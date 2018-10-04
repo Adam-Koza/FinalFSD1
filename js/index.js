@@ -75,7 +75,7 @@ function wait(ms){
        totalVal += arr[i].totalValue;
     }
     for (b=0; b<arr.length; b++){
-        var height = (((arr[b].totalValue / totalVal) * 100) * 4);
+        var height = (((arr[b].totalValue / totalVal) * 100) * 3.4);
         if (height > 100){
             height = 100;
         }

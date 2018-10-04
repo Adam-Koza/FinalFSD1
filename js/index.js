@@ -80,7 +80,8 @@ function wait(ms){
        div.id = 'block' + b;
        div.style.cssText = 'width: ' + ((arr[b].totalValue / totalVal) * 100) + 
        '%; height: ' + (((arr[b].totalValue / totalVal) * 100) * 4) + '%; ' +
-       'box-sizing: border-box; border: 1px solid#b1b0b1; border-radius: 15px;' 
+       'box-sizing: border-box; border: 1px solid#b1b0b1; border-radius: 15px; ' +
+       'background-color: rgb(' + Math.round((arr[b].gasGrade * 255)) + ', ' + Math.round(((100 - (arr[b].gasGrade * 100))) * 255) + ', 0);'; 
        div.innerHTML = b;
        document.getElementById('bottomHalf').appendChild(div);
      }

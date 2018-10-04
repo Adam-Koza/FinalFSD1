@@ -1,1 +1,27 @@
-.
+html {
+    height: 100%;
+    width: 100;
+}
+
+body {
+    height: 100%;
+    width: 100%;
+}
+#topHalf {
+    height: 50%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid#b1b0b1;
+    border-radius: 15px;
+}
+
+#bottomHalf {
+    height: 50%;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid#a80ea8;
+    border-radius: 15px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}

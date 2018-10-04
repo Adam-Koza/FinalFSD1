@@ -6,7 +6,7 @@ var globHeight = 0;
 
 // Calculate Block Style
 function getBlock (blockHeight) {
-    blockHeight = blockHeight.toString(16);
+    var blockHeight = blockHeight.toString(16);
 
     // Api etherscan
     fetch('https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag=' + blockHeight + '&boolean=true&apikey=' + Token)
@@ -81,8 +81,14 @@ function wait(ms){
        div.style.cssText = 'width: ' + ((arr[b].totalValue / totalVal) * 100) + 
        '%; height: ' + (((arr[b].totalValue / totalVal) * 100) * 4) + '%; ' +
        'box-sizing: border-box; border: 1px solid#b1b0b1; border-radius: 15px; ' +
+       'display: flex; flex-direction: column; align-items: center; justify-content: center;' +
        'background-color: rgb(' + Math.round((arr[b].gasGrade * 255)) + ', ' + Math.round(((100 - (arr[b].gasGrade * 100))) * 255) + ', 0);'; 
-       div.innerHTML = b;
+       if (((arr[b].totalValue / totalVal) * 100 > 8)) {
+           div.innerHTML = "<div><b>#" + arr[b].height + "</b></div>" +
+           "<div>" + Math.round((arr[b].totalValue / 1000000000000000000)) + " eth </div>" +
+           "<div>" + arr[b].totalTrans + " transactions </div>" +
+           "<div>" + Math.round((arr[b].gasGrade * 100)) + "% gas limit</div>";
+       }
        document.getElementById('bottomHalf').appendChild(div);
      }
  }

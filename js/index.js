@@ -94,7 +94,61 @@ function wait(ms){
            "<div>" + Math.round((arr[b].gasGrade * 100)) + "% gas limit</div>";
        }
        document.getElementById('bottomHalf').appendChild(div);
+       if (b === 0) {
+            document.getElementById('topHalf').innerHTML = '';
+            var topText = document.createElement('h1');
+            topText.innerHTML = "Latest Block:";
+            document.getElementById('topHalf').appendChild(topText);
+            var topblock = document.createElement('div');
+            topblock.className = 'block';
+            topblock.id = 'topBlock';
+            topblock.style.cssText = 'width: 10%; height: 80%; ' +
+            'background-color: rgb(' + red + ', ' + green + ', 0);';
+            topblock.innerHTML = "<div><b>#" + arr[b].height + "</b></div>" +
+           "<div>" + Math.round((arr[b].totalValue / 1000000000000000000)) + " eth </div>" +
+           "<div>" + arr[b].totalTrans + " transactions </div>" +
+           "<div>" + Math.round((arr[b].gasGrade * 100)) + "% gas limit</div>";
+           document.getElementById('topHalf').appendChild(topblock);
+           drawNetStats();
+
+       }
      }
+ }
+
+ function drawNetStats() {
+    var netStats = document.createElement('div');
+    netStats.id = 'netStats';
+    document.getElementById('topHalf').appendChild(netStats);
+    var left = document.createElement('div');
+    left.id = 'left';
+    document.getElementById('netStats').appendChild(left);
+    var center = document.createElement('div');
+    center.id = 'center';
+    center.innerHTML = "testforspacing";
+    document.getElementById('netStats').appendChild(center);
+    var right = document.createElement('div');
+    right.id = 'right';
+    document.getElementById('netStats').appendChild(right);
+
+    var supplyL = document.createElement('h3');
+    supplyL.innerHTML = 'Total Ether Supply';
+    document.getElementById('left').appendChild(supplyL);
+    var marketCapL = document.createElement('h3');
+    marketCapL.innerHTML = 'Market Capitalization';
+    document.getElementById('left').appendChild(marketCapL);
+    var priceL = document.createElement('h3');
+    priceL.innerHTML = 'Ether Price';
+    document.getElementById('left').appendChild(priceL);
+
+    var supplyR = document.createElement('h3');
+    supplyR.innerHTML = '102,405,253.75';
+    document.getElementById('right').appendChild(supplyR);
+    var marketCapR = document.createElement('h3');
+    marketCapR.innerHTML = '$22,927,512,261';
+    document.getElementById('right').appendChild(marketCapR);
+    var priceR = document.createElement('h3');
+    priceR.innerHTML = '$223.89 USD';
+    document.getElementById('right').appendChild(priceR);
  }
 
 

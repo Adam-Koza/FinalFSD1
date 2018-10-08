@@ -20,7 +20,7 @@ function getLatestBlock() {
 
 // Grab latest block up until the 9th.
 function getBlockList(height) {
-	for (i = 0; i < 9; i++) {
+	for (i = 0; i < 3; i++) {
 		height -= 1;
 		getBlock(height);
 	}
@@ -45,7 +45,7 @@ function getBlock(blockHeight) {
 			addBlock({
 				height: parseInt(blockHeight, 16),
 				gasUsed: parseInt(res.gasUsed, 16),
-				gasGrade: parseInt(res.gasUsed, 16) / parseInt(res.gasLimit, 16),
+				gasGrade: (parseInt(res.gasUsed, 16) / parseInt(res.gasLimit, 16)),
 				totalTrans: res.transactions.length,
 				size: parseInt(res.size, 16),
 				totalValue: totalValuev
@@ -119,11 +119,11 @@ function drawNetStats() {
 			var res = myJson.result;
 			var supply = document.getElementById('supply');
 			supply.innerHTML = res / 1000000000000000000;
-			drawMC();
+			drawPrice();
 		});
 }
 
-function drawMC() {
+function drawPrice() {
 	// Api etherscan, fetch market info.
 	fetch('https://api.etherscan.io/api?module=stats&action=ethprice&apikey=' + Token)
 		.then(function (response) {
@@ -131,11 +131,17 @@ function drawMC() {
 		})
 		.then(function (myJson) {
 			var res = myJson.result;
-			var marketCap = document.getElementById('marketCap');
-			marketCap.innerHTML = parseInt(document.getElementById('supply').innerHTML) * res.ethusd;
 			var price = document.getElementById('price');
-			price.innerHTML = '$' + ethusd + ' USD';
+            price.innerHTML = '$' + res.ethusd + ' USD';
+            drawMC();
 		});
+}
+
+function drawMC() {
+    // Calculate and draw market cap.
+    var marketCap = document.getElementById('marketCap');
+	marketCap.innerHTML = (parseInt(document.getElementById('supply').innerHTML) * parseInt(document.getElementById('price').innerHTML));
+
 }
 
 

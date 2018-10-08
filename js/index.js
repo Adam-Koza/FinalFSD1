@@ -49,7 +49,10 @@ function getBlock(blockHeight) {
 				size: parseInt(res.size, 16),
 				totalValue: totalValuev
 			});
-		});
+        })
+        .catch((error) => {
+            console.log(error)
+        });
 }
 
 // Push block into block array.
@@ -115,7 +118,10 @@ function drawNetStats() {
 			var supply = document.getElementById('supply');
 			supply.innerHTML = res / 1000000000000000000;
 			drawPrice((res / 1000000000000000000));
-		});
+        })
+        .catch((error) => {
+            console.log(error)
+        });
 }
 
 function drawPrice(supply) {
@@ -129,7 +135,10 @@ function drawPrice(supply) {
 			var price = document.getElementById('price');
             price.innerHTML = '$' + res.ethusd + ' USD';
             drawMC(supply, res.ethusd);
-		});
+        })
+        .catch((error) => {
+            console.log(error)
+        });
 }
 
 function drawMC(supply, price) {
@@ -141,3 +150,6 @@ function drawMC(supply, price) {
 
 getLatestBlock();
 drawNetStats();
+
+// Reload page.
+setTimeout(function(){ location.reload(); }, 20000);

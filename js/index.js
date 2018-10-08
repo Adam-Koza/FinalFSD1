@@ -20,27 +20,26 @@ function getLatestBlock() {
 
 // Grab latest block up until the 9th.
 function getBlockList(height) {
-	for (i = 0; i < 3; i++) {
-		height -= 1;
-		getBlock(height);
+	for (i = 0; i < 7; i++) {
+        getBlock(height);
+        height -= 1;
 	}
 }
 
 // Fetch block information.
 function getBlock(blockHeight) {
 	var blockHeight = blockHeight.toString(16);
-
 	// Api etherscan, fetch block info.
 	fetch('https://api.etherscan.io/api?module=proxy&action=eth_getBlockByNumber&tag=' + blockHeight + '&boolean=true&apikey=' + Token)
 		.then(function (response) {
 			return response.json();
 		})
 		.then(function (myJson) {
-			var res = myJson.result;
+            var res = myJson.result;
 			var totalValuev = 0;
-			for (var i = 0; i < totalTransv; i++) {
+			for (var i = 0; i < res.transactions.length; i++) {
 				totalValuev += parseInt(res.transactions[i].value, 16);
-			}
+            }
 			// Add block attributes to block array.
 			addBlock({
 				height: parseInt(blockHeight, 16),
@@ -56,7 +55,6 @@ function getBlock(blockHeight) {
 // Push block into block array.
 function addBlock(block) {
 	blockArray.push(block);
-	console.log(blockArray.length);
 	drawBlocks(blockArray);
 }
 
@@ -93,8 +91,8 @@ function drawBlocks(arr) {
 		document.getElementById('bottomHalf').appendChild(div);
 		// Draw first block to top.
 		if (b === 0) {
-			document.getElementById('topBlock').innerHTML = '';
-			var topblock = document.getElementById('topBlock');
+            var topblock = document.getElementById('topBlock');
+			topblock.innerHTML = '';
 			topblock.style.cssText = '';
 			topblock.style.cssText = 'width: 10%; height: 80%; ' +
 				'background-color: rgb(' + red + ', ' + green + ', 0);';
@@ -102,16 +100,13 @@ function drawBlocks(arr) {
 				"<div>" + Math.round((arr[b].totalValue / 1000000000000000000)) + " eth </div>" +
 				"<div>" + arr[b].totalTrans + " transactions </div>" +
 				"<div>" + Math.round((arr[b].gasGrade * 100)) + "% gas limit</div>";
-			// Grab net Stats.
-			drawNetStats();
-
 		}
 	}
 }
 
 function drawNetStats() {
 	// Api etherscan, fetch block info.
-	fetch('http://api.etherscan.io/api?module=stats&action=ethsupply')
+	fetch('https://api.etherscan.io/api?module=stats&action=ethsupply')
 		.then(function (response) {
 			return response.json();
 		})
@@ -119,11 +114,11 @@ function drawNetStats() {
 			var res = myJson.result;
 			var supply = document.getElementById('supply');
 			supply.innerHTML = res / 1000000000000000000;
-			drawPrice();
+			drawPrice((res / 1000000000000000000));
 		});
 }
 
-function drawPrice() {
+function drawPrice(supply) {
 	// Api etherscan, fetch market info.
 	fetch('https://api.etherscan.io/api?module=stats&action=ethprice&apikey=' + Token)
 		.then(function (response) {
@@ -133,16 +128,16 @@ function drawPrice() {
 			var res = myJson.result;
 			var price = document.getElementById('price');
             price.innerHTML = '$' + res.ethusd + ' USD';
-            drawMC();
+            drawMC(supply, res.ethusd);
 		});
 }
 
-function drawMC() {
+function drawMC(supply, price) {
     // Calculate and draw market cap.
     var marketCap = document.getElementById('marketCap');
-	marketCap.innerHTML = (parseInt(document.getElementById('supply').innerHTML) * parseInt(document.getElementById('price').innerHTML));
-
+	marketCap.innerHTML = '$' + Math.round((supply * price));
 }
 
 
 getLatestBlock();
+drawNetStats();

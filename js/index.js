@@ -117,7 +117,7 @@ function drawBlocks(arr) {
 }
 
 function drawNetStats() {
-	// Api etherscan, fetch block info.
+	// Api etherscan, fetch supply info.
 	fetch('https://api.etherscan.io/api?module=stats&action=ethsupply')
 		.then(function (response) {
 			return response.json();
@@ -164,6 +164,8 @@ function getUpdates() {
 	}, 5000);
 }
 
+// Initial page load.
 drawNetStats();
 getLatestBlock();
 getUpdates();
+

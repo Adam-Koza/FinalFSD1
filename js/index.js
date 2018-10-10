@@ -60,7 +60,13 @@ function getBlock(blockHeight) {
 
 // Push block into block array.
 function addBlock(block) {
-	blockArray.push(block);
+	if (blockArray.length < 7) {
+		blockArray.push(block);
+	} else {
+		if (block.height > blockArray[0].height){
+			blockArray = [block].concat(blockArray);
+		} 
+	}
 	drawBlocks(blockArray);
 }
 
@@ -150,11 +156,14 @@ function drawMC(supply, price) {
 	marketCap.innerHTML = '$' + Math.round((supply * price));
 }
 
-// Get and draw blocks.
-getLatestBlock();
-drawNetStats();
+// Get live updates.
+function getUpdates() {
+	setTimeout(function () {
+		getLatestBlock();
+		getUpdates();
+	}, 5000);
+}
 
-// Reload page.
-setTimeout(function () {
-	location.reload();
-}, 20000);
+drawNetStats();
+getLatestBlock();
+getUpdates();
